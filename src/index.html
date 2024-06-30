@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/src/output.css">
     <script src="/src/script.js" defer></script>
-    <title>Document</title>
+    <title>CARTOES</title>
 </head>
+<!-- CONTAINER DE BUSCA -->
 <body id="container" class="flex flex-col bg-white w-screen h-screen p-3 space-y-4">
     <div class="m-5">
         <div id="caixa-input" class="flex h-10 items-center space-x-4 p-4 rounded-lg">
@@ -15,7 +16,27 @@
             <button id="botao" class="bg-sky-800 text-white border-2 border-sky-800 rounded-lg p-1">Adicionar</button>
         </div>
 
-        <div class=" ml-24 mt-32">
+<!-- CONTAINER CARTAO -->
+      <div id="cartao" class="hidden ml-24 mt-32 flex flex-col items-center border-gray-100 border-2 w-72 h-auto bg-white shadow-xl rounded-lg">
+        <img id="banner" class="border-2 rounded-tl-md rounded-tr-md h-32 w-full" src="/src/forest-landscape-clouds-4k-xn-1920x1080.jpg" alt="">
+        <img id="avatar" class="rounded-full w-20 h-20 border-4 border-white absolute top-72" src="" alt="">
+        <h2 id="nome" class="mt-10"></h2>
+        <p id="username" class="text-slate-400 text-xs"></p>
+        <div id="repositorios" class="ml-4 w-full">
+            <div class="flex justify-between items-center">
+                <h2 class="font-bold text-lg text-left">Repositórios</h2>
+                <button id="ver-mais" class=" bg-slate-300 p-1 rounded-lg text-xs m-2 font-bold">Ver mais</button>
+            </div>
+            <div id="lista-repositorios" class="mt-2 mr-4 hidden">
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+        <!-- <div class=" ml-24 mt-32">
             <div id="cartao" class="flex flex-col items-center border-gray-100 border-2 w-72 h-96 bg-white shadow-xl rounded-lg">
                <img class="border-2 rounded-tl-md rounded-tr-md h-32 w-full" src="/src/forest-landscape-clouds-4k-xn-1920x1080.jpg" alt=""> 
                <img class="rounded-full  w-20 h-20 border-4 border-white absolute top-72" src="/src/R.jpg" alt="">
@@ -30,8 +51,5 @@
                 </div>
                </div>
             </div>
-        </div>
-    </div>
-</body>
-</html>
+        </div> -->
 
