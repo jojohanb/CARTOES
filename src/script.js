@@ -1,14 +1,9 @@
-// DECLARACAO DAS VARIAVEIS
+// DECLARAÇÃO DAS VARIÁVEIS
 const input = document.getElementById("input");
 const botao = document.getElementById("botao");
-const cartao = document.getElementById("cartao");
-const avatar = document.getElementById("avatar");
-const nome = document.getElementById("nome");
-const username = document.getElementById("username");
-const listaRepositorios = document.getElementById("lista-repositorios");
-const verMais = document.getElementById("ver-mais");
+const cartoesContainer = document.getElementById("cartoes-container");
 
-// FUNCOES
+// FUNÇÕES
 botao.addEventListener("click", () => {
     const usuario = input.value.trim();
     if (usuario === "") {
@@ -24,12 +19,24 @@ botao.addEventListener("click", () => {
             return response.json();
         })
         .then(dados => {
-            cartao.classList.remove("hidden");
-            avatar.src = dados.avatar_url;
-            nome.textContent = dados.name || "Nome não disponível";
-            username.textContent = `@${dados.login}`;
+            const cartao = document.createElement("div");
+            cartao.classList.add("flex", "flex-col", "items-center", "border-gray-100", "border-2", "w-72", "h-auto", "bg-white", "shadow-xl", "rounded-lg", "p-4", "relative", "mt-32");
+            cartao.innerHTML = `
+                <img class="border-2 rounded-tl-md rounded-tr-md h-32 w-full" src="/src/forest-landscape-clouds-4k-xn-1920x1080.jpg" alt="">
+                <img class="rounded-full w-20 h-20 border-4 border-white absolute top-20 transform -translate-y-1/2" src="${dados.avatar_url}" alt="">
+                <h2 class="mt-10">${dados.name || "Nome não disponível"}</h2>
+                <p class="text-slate-400 text-xs">@${dados.login}</p>
+                <div class="ml-4 w-full">
+                    <div class="flex justify-between items-center">
+                        <h2 class="font-bold text-lg text-left">Repositórios</h2>
+                    </div>
+                    <div class="mt-2 h-40 overflow-y-scroll border border-gray-200 p-2" id="lista-repositorios-${dados.login}">
+                    </div>
+                </div>
+            `;
+            cartoesContainer.appendChild(cartao);
 
-            listaRepositorios.innerHTML = "";
+            const listaRepositorios = document.getElementById(`lista-repositorios-${dados.login}`);
             fetch(`https://api.github.com/users/${usuario}/repos`)
                 .then(response => response.json())
                 .then(repos => {
@@ -50,14 +57,9 @@ botao.addEventListener("click", () => {
         })
         .catch(error => {
             alert(error.message);
-            cartao.classList.add("hidden");
         });
 });
 
-verMais.addEventListener("click", () => {
-    listaRepositorios.classList.toggle("hidden");
-    verMais.textContent = listaRepositorios.classList.contains("hidden") ? "Ver mais" : "Ver menos";
-});
 
 // function pesquisar(){
 //     if (input) {
