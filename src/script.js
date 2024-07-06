@@ -2,6 +2,7 @@
 const input = document.getElementById("input");
 const botao = document.getElementById("botao");
 const cartoesContainer = document.getElementById("cartoes-container");
+const usuariosPesquisados = [];
 
 // FUNÇÕES
 botao.addEventListener("click", () => {
@@ -11,19 +12,29 @@ botao.addEventListener("click", () => {
         return;
     }
 
+    if (usuariosPesquisados.includes(usuario.toLowerCase())) {
+        alert("Usuário já foi pesquisado!");
+        return;
+    }
+
     fetch(`https://api.github.com/users/${usuario}`)
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Usuário não encontrado!");
+            if (!response.ok) { //aqui vai verificar se a respsota da api é bem sucedida
+                alert("Usuário não encontrado!");
+                return;
             }
-            return response.json();
+            return response.json(); //aqui esta convertendo a respsota pra json
         })
         .then(dados => {
+            if (!dados) return;
+
+            usuariosPesquisados.push(usuario.toLowerCase());
+
             const cartao = document.createElement("div");
-            cartao.classList.add("flex", "flex-col", "items-center", "border-gray-100", "border-2", "w-72", "h-auto", "bg-white", "shadow-xl", "rounded-lg", "p-4", "relative", "mt-32");
+            cartao.classList.add("flex", "flex-col", "items-center", "border-gray-100", "border-2", "w-72", "h-96", "bg-white", "shadow-xl", "rounded-lg", "mt-32");
             cartao.innerHTML = `
                 <img class="border-2 rounded-tl-md rounded-tr-md h-32 w-full" src="/src/forest-landscape-clouds-4k-xn-1920x1080.jpg" alt="">
-                <img class="rounded-full w-20 h-20 border-4 border-white absolute top-20 transform -translate-y-1/2" src="${dados.avatar_url}" alt="">
+                <img class="rounded-full w-20 h-20 border-4 border-white absolute top-72 " src="${dados.avatar_url}" alt="">
                 <h2 class="mt-10">${dados.name || "Nome não disponível"}</h2>
                 <p class="text-slate-400 text-xs">@${dados.login}</p>
                 <div class="ml-4 w-full">
@@ -38,8 +49,8 @@ botao.addEventListener("click", () => {
 
             const listaRepositorios = document.getElementById(`lista-repositorios-${dados.login}`);
             fetch(`https://api.github.com/users/${usuario}/repos`)
-                .then(response => response.json())
-                .then(repos => {
+                .then(response => response.json()) //aqui converte a resposta para json
+                .then(repos => { 
                     repos.forEach(repo => {
                         const repoDiv = document.createElement("div");
                         repoDiv.classList.add("bg-slate-100", "border-2", "p-2", "rounded-lg", "mb-2");
@@ -56,20 +67,7 @@ botao.addEventListener("click", () => {
                 });
         })
         .catch(error => {
-            alert(error.message);
+            alert("Erro ao buscar dados do usuário.");
+            console.error(error);
         });
 });
-
-
-// function pesquisar(){
-//     if (input) {
-//         fetch(`https://api.github.com/users/${input}`) //aqui esta 
-//         .then(response => response.json()) //pegando em forma de obj
-//         // .then(dados =>)
-
-//     }
-
-// }
-
-
-
